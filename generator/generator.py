@@ -29,5 +29,5 @@ def generate_pdf(context, player_list, coach_list):
     prov2_text = prov1_text[:insert2_index] + add2 + prov1_text[insert2_index:]
 
     config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-    output_pdf = "output.pdf"
+    output_pdf = f"output/roster-{context['game_date']}.pdf"
     pdfkit.from_string(prov2_text, output_pdf, configuration=config)
