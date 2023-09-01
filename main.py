@@ -33,7 +33,7 @@ if equipo == "kdt":
         for index in to_delete:
             del c_list[index]
         n = str(input("Eliminar entrenador... "))
-    generate_pdf(context, p_list, c_list)
+    generate_pdf(context, p_list, c_list, equipo)
 elif equipo == "inf":
     context["category"] = "INFANTIL FEMEMNINO C"
     p_list = player_list_inf
@@ -57,4 +57,4 @@ elif equipo == "inf":
         for index in to_delete:
             del c_list[index]
         n = str(input("Eliminar entrenador... "))
-    generate_pdf(context, p_list, c_list)
+    generate_pdf(context, p_list, c_list, equipo)
