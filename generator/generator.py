@@ -1,7 +1,7 @@
 import jinja2
 import pdfkit
 
-def generate_pdf(context, player_list, coach_list, equipo):
+def generate_pdf(context, player_list, coach_list, equipo, output_directory):
     template_loader = jinja2.FileSystemLoader('./')
     template_env = jinja2.Environment(loader=template_loader)
 
@@ -29,5 +29,5 @@ def generate_pdf(context, player_list, coach_list, equipo):
     prov2_text = prov1_text[:insert2_index] + add2 + prov1_text[insert2_index:]
 
     config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-    output_pdf = f"output/roster-{equipo}-{context['game_date']}.pdf"
+    output_pdf = fr"{output_directory}\roster-{equipo}-{context['game_date']}.pdf"
     pdfkit.from_string(prov2_text, output_pdf, configuration=config)
