@@ -1,0 +1,8 @@
+/python/env
+/python/output
+
+/cpp/.env
+*.o
+*.exe
+
+*.pdf
