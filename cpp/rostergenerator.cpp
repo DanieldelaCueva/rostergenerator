@@ -39,33 +39,6 @@ int filter_roster(map<string, string> context, vector<Player>& p_list, vector<Co
 
     } while ((n != "n"));
 
-    // do
-    // {
-    //     cout << "Add player: ";
-    //     cin >> n;
-    //     cout << endl;
-    //     if (n != "")
-    //     {
-    //         map<string, string> new_player;
-    //         new_player["num"] = n;
-
-    //         cout << "Name: ";
-    //         cin >> new_player["name"];
-    //         cout << endl;
-
-    //         cout << "Surname: ";
-    //         cin >> new_player["surname"];
-    //         cout << endl;
-
-    //         Player newPlayer;
-    //         newPlayer.n = stoi(new_player["num"]); // Convert string to int
-    //         newPlayer.name = new_player["name"];
-    //         newPlayer.surname = new_player["surname"];
-
-    //         p_list.push_back(newPlayer);
-    //     }
-    // } while (n != "");
-
     do
     {
         cout << "Delete coach... ";
@@ -86,33 +59,6 @@ int filter_roster(map<string, string> context, vector<Player>& p_list, vector<Co
             cout << endl;
         }
     } while (n != "n");
-
-    // do
-    // {
-    //     cout << "Add coach: ";
-    //     cin >> n;
-    //     cout << endl;
-    //     if (n != "")
-    //     {
-    //         map<string, string> new_coach;
-    //         new_coach["num"] = n;
-
-    //         cout << "Name: ";
-    //         cin >> new_coach["name"];
-    //         cout << endl;
-
-    //         cout << "Surname: ";
-    //         cin >> new_coach["surname"];
-    //         cout << endl;
-
-    //         Coach newCoach;
-    //         newCoach.n = stoi(new_coach["num"]); // Convert string to int
-    //         newCoach.name = new_coach["name"];
-    //         newCoach.surname = new_coach["surname"];
-
-    //         c_list.push_back(newCoach);
-    //     }
-    // } while (n != "");
 
     generate_pdf(context, p_list, c_list, context["team"], outdir);
 
