@@ -1,4 +1,10 @@
-/env
-/output
+/python/env
+/python/output
+
+/.vscode
+
+*.csv
+*.o
+*.exe
 
 *.pdf
