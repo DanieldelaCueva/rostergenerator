@@ -1,1 +1,1 @@
-g++ -o rostergenerator rostergenerator.cpp generator/generate_pdf.cpp .env/env.cpp
+g++ -o rostergenerator rostergenerator.cpp generator/generate_pdf.cpp .env/env.cpp filter/filter.cpp
