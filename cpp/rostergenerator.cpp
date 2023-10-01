@@ -67,7 +67,6 @@ int filter_roster(map<string, string> context, vector<Player> p_list, vector<Coa
             cout << endl;
         }
     } while (n != "n");
-
     generate_pdf(context, p_list, c_list, context["team"], outdir);
 
     return 0;
@@ -111,6 +110,7 @@ int main()
     context["generation_date"] = buf;
 
     std::string teamId = context["team"];
+
     for (const Team& team : teams) {
         if (team.teamId == teamId) {
             context["category"] = team.category;

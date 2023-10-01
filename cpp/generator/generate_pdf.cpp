@@ -133,8 +133,8 @@ int generate_pdf(std::map<std::string, std::string> context,
     if (result == 0)
     {
         std::cout << "PDF generation successful." << std::endl;
-        std::remove("temp/modified_template.html");
-        std::remove("temp/output.html");
+        // std::remove("temp/modified_template.html");
+        // std::remove("temp/output.html");
     }
     else
     {
