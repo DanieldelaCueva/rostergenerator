@@ -4,10 +4,15 @@
 #include <time.h>
 #include <algorithm>
 #include <vector>
+#include <Windows.h>
 
 using namespace std;
 
 #include ".env/env.h"
+
+void setColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
 
 int filter_roster(map<string, string> context, vector<Player> p_list, vector<Coach> c_list, string outdir)
 {
@@ -74,12 +79,16 @@ int filter_roster(map<string, string> context, vector<Player> p_list, vector<Coa
 
 int main()
 {
+
     setContext();
 
-    cout << "***********************************" << endl;
-    cout << "**********ROSTER GENERATOR*********" << endl;
-    cout << "***********************************" << endl;
+    // Set title with colors
+    setColor(1); // Red text
+    cout << "***************************************************" << endl;
+    cout << "******************ROSTER GENERATOR*****************" << endl;
+    cout << "***************************************************" << endl;
     cout << endl;
+    setColor(7); // Red text
 
     cout << "Team code: ";
     cin >> context["team"];
