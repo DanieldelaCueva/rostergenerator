@@ -123,7 +123,6 @@ int generate_pdf(std::map<std::string, std::string> context,
 
     std::string htmlTemplateFile = "temp/output.html"; // Replace with your HTML template file
     std::string outputDirect = outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf\""; // Replace with the desired output PDF file name
-    std::cout << outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf\"";
 
     // Step 9: Use system() to invoke wkhtmltopdf
 
