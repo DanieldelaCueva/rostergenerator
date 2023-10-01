@@ -19,6 +19,10 @@ int filter_roster(map<string, string> context, vector<Player>& p_list, vector<Co
 
     do
     {
+        cout << "PLAYERS:" << endl;
+        for (const Player& player : p_list) {
+        std::cout << player.n << " - " << player.surname << " " << player.name << std::endl;
+        }
         cout << "Delete player... ";
         cin >> n;
         // cout << endl;
@@ -41,12 +45,16 @@ int filter_roster(map<string, string> context, vector<Player>& p_list, vector<Co
 
     do
     {
+        cout << "COACHES:" << endl;
+        for (const Coach& coach : c_list) {
+        std::cout << coach.n << " - " << coach.surname << " " << coach.name << std::endl;
+        }
         cout << "Delete coach... ";
         cin >> n;
         cout << endl;
 
         auto it = std::remove_if(c_list.begin(), c_list.end(), [&](const Coach &coach)
-                                 { return to_string(coach.n) == n; });
+                                 { return coach.n == n; });
 
         // Check if 'it' is equal to 'c_list.end()' here and erase if needed
         if (it != c_list.end())
@@ -115,7 +123,7 @@ int main()
     else if (context["team"] == "inf")
     {
         context["category"] = "INFANTIL FEMENINO C";
-        filter_roster(context, p_list_10, c_list_10, "C:/Users/Daniel De la Cueva/OneDrive/BASKET/INF 23-24/ROSTERS");
+        filter_roster(context, p_list_10, c_list_10, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/INF 23-24/ROSTERS");
     }
 
     return 0;

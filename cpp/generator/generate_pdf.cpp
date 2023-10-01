@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <cstdio>
 
 #include "../.env/env.h"
 
@@ -11,96 +12,118 @@ int generate_pdf(std::map<std::string, std::string> context,
 {
 
     // Read the HTML template from a file
-    std::ifstream templateFile("roster_template.html");
+    std::ifstream templateFile("generator/roster_template.html");
     if (!templateFile.is_open())
     {
-        std::cerr << "Failed to open HTML template file." << std::endl;
+        std::cerr << "Error: Unable to open template file." << std::endl;
         return 1;
     }
 
-    std::string htmlTemplate((std::istreambuf_iterator<char>(templateFile)), std::istreambuf_iterator<char>());
-    templateFile.close();
+    // Read the template content into a string
+    std::string htmlTemplate((std::istreambuf_iterator<char>(templateFile)),
+                             std::istreambuf_iterator<char>());
 
-    // Replace placeholders with dynamic content
-    std::string clubLogoSrc = context["club_logo_src"];
-    std::string clubName = context["club_name"];
-    std::string category = context["category"];
-    ;
-    std::string competition = context["competition"]; // Replace with the actual competition name
-    std::string day = context["day"];
-    ;                                            // Replace with the actual day
-    std::string gameDate = context["game_date"]; // Replace with the actual game date
-    std::string gameTime = context["game_time"];
-    ;                                                        // Replace with the actual game time
-    std::string generationDate = context["generation_date"]; // Replace with the actual generation date
-
-    // Replace placeholders in the HTML template with dynamic content
-    size_t startPos = 0;
-    while ((startPos = htmlTemplate.find("{{", startPos)) != std::string::npos)
+    // Replace placeholders with values
+    for (const auto &pair : context)
     {
-        size_t endPos = htmlTemplate.find("}}", startPos);
-        if (endPos != std::string::npos)
+        std::string placeholder = "{{" + pair.first + "}}";
+        size_t pos = htmlTemplate.find(placeholder);
+        while (pos != std::string::npos)
         {
-            std::string placeholder = htmlTemplate.substr(startPos, endPos - startPos + 2);
-            if (placeholder == "{{club_logo_src}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, clubLogoSrc);
-            }
-            else if (placeholder == "{{club}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, clubName);
-            }
-            else if (placeholder == "{{category}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, category);
-            }
-            else if (placeholder == "{{competition}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, competition);
-            }
-            else if (placeholder == "{{day}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, day);
-            }
-            else if (placeholder == "{{game_date}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, gameDate);
-            }
-            else if (placeholder == "{{game_time}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, gameTime);
-            }
-            else if (placeholder == "{{generation_date}}")
-            {
-                htmlTemplate.replace(startPos, endPos - startPos + 2, generationDate);
-            }
-            // Add more replacements for other placeholders as needed
+            htmlTemplate.replace(pos, placeholder.length(), pair.second);
+            pos = htmlTemplate.find(placeholder, pos + pair.second.length());
         }
-        startPos = endPos;
     }
 
-    // Write the modified HTML back to a file (optional)
-    std::ofstream modifiedTemplateFile("modified_template.html");
-    if (!modifiedTemplateFile.is_open())
+    // Write the modified HTML to a file
+    std::ofstream outputFile("temp/modified_template.html");
+    if (!outputFile.is_open())
     {
-        std::cerr << "Failed to create a modified HTML template file." << std::endl;
+        std::cerr << "Error: Unable to create or open output file." << std::endl;
+        return 1;
+    }
+    outputFile << htmlTemplate;
+    outputFile.close();
+
+    std::cout << "Modified HTML template has been written to modified_template.html." << std::endl;
+
+    // Open the template.html file for reading
+    std::ifstream templateFile2("temp/modified_template.html");
+    if (!templateFile2.is_open())
+    {
+        std::cerr << "Failed to open template.html" << std::endl;
         return 1;
     }
 
-    modifiedTemplateFile << htmlTemplate;
-    modifiedTemplateFile.close();
+    // Read the content of the template file into a string
+    std::string templateContent(
+        (std::istreambuf_iterator<char>(templateFile2)),
+        (std::istreambuf_iterator<char>()));
 
-    std::string htmlTemplateFile = "modified_template.html";                                              // Replace with your HTML template file
-    std::string outputFile = outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf"; // Replace with the desired output PDF file name
+    // Close the template file
+    templateFile2.close();
+
+    // Generate HTML code for p_list
+    std::string playerHtml;
+    for (const Player &player : p_list)
+    {
+        playerHtml += "<tr style='height: 18px;'>\n";
+        playerHtml += "<td style='width: 10%; height: 18px; text-align: center;'>" + std::to_string(player.n) + "</td>\n";
+        playerHtml += "<td style='width: 45%; height: 18px; padding-left: 1%;'>" + player.surname + "</td>\n";
+        playerHtml += "<td style='width: 45%; height: 18px; padding-left: 1%;'>" + player.name + "</td>\n";
+        playerHtml += "</tr>\n";
+    }
+
+    // Generate HTML code for c_list
+    std::string coachHtml;
+    for (const Coach &coach : c_list)
+    {
+        coachHtml += "<tr style='height: 18px;'>\n";
+        coachHtml += "<td style='width: 10%; height: 18px; text-align: center;'>" + coach.n + "</td>\n";
+        coachHtml += "<td style='width: 45%; height: 18px; padding-left: 1%;'>" + coach.surname + "</td>\n";
+        coachHtml += "<td style='width: 45%; height: 18px; padding-left: 1%;'>" + coach.name + "</td>\n";
+        coachHtml += "</tr>\n";
+    }
+
+    // Replace placeholders in the template with generated HTML
+    size_t insert1Pos = templateContent.find("<!--insert1-->");
+    if (insert1Pos != std::string::npos)
+    {
+        templateContent.replace(insert1Pos, 14, playerHtml);
+    }
+
+    size_t insert2Pos = templateContent.find("<!--insert2-->");
+    if (insert2Pos != std::string::npos)
+    {
+        templateContent.replace(insert2Pos, 14, coachHtml);
+    }
+
+    // Write the modified content to a new HTML file
+    std::ofstream outputFile2("temp/output.html");
+    if (!outputFile2.is_open())
+    {
+        std::cerr << "Failed to create output.html" << std::endl;
+        return 1;
+    }
+
+    outputFile2 << templateContent;
+    outputFile2.close();
+
+    std::string htmlTemplateFile = "temp/output.html"; // Replace with your HTML template file
+    std::string outputDirect = outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf\""; // Replace with the desired output PDF file name
+    // std::string outputDirect = "output.pdf";
+    // std::string outputDirect = "roster-" + context["team"] + "-" + context["game_date"] + ".pdf";
 
     // Use system() to invoke wkhtmltopdf
-    std::string command = "wkhtmltopdf " + htmlTemplateFile + " " + outputFile;
+    std::string command = "wkhtmltopdf " + htmlTemplateFile + " " + outputDirect;
 
     int result = system(command.c_str());
 
     if (result == 0)
     {
         std::cout << "PDF generation successful." << std::endl;
+        std::remove("temp/modified_template.html");
+        std::remove("temp/output.html");
     }
     else
     {

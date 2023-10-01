@@ -8,7 +8,7 @@ struct Player {
 };
 
 struct Coach {
-    int n;
+    std::string n;
     std::string name;
     std::string surname;
 };
