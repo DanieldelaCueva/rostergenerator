@@ -9,7 +9,7 @@ using namespace std;
 
 #include ".env/env.h"
 
-int filter_roster(map<string, string> context, vector<Player>& p_list, vector<Coach>& c_list, string outdir)
+int filter_roster(map<string, string> context, vector<Player> p_list, vector<Coach> c_list, string outdir)
 {
     string n;
 
@@ -110,21 +110,33 @@ int main()
     strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
     context["generation_date"] = buf;
 
-    if (context["team"] == "kdt8")
-    {
-        context["category"] = "CADETE FEMENINO B";
-        filter_roster(context, p_list_08, c_list_08, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 08 23-24/ROSTERS");
+    std::string teamId = context["team"];
+    for (const Team& team : teams) {
+        if (team.teamId == teamId) {
+            context["category"] = team.category;
+            // Call your filter_roster function here with team.players, team.coaches, and team.teamOutputDirectory
+            // filter_roster(context, team.players, team.coaches, team.teamOutputDirectory);
+            filter_roster(context, team.players, team.coaches, team.teamOutputDirectory);
+            return 0; // Exit the loop when a match is found
+        }
     }
-    else if (context["team"] == "kdt9")
-    {
-        context["category"] = "CADETE FEMENINO C";
-        filter_roster(context, p_list_09, c_list_09, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 09 23-24/ROSTERS");
-    }
-    else if (context["team"] == "inf")
-    {
-        context["category"] = "INFANTIL FEMENINO C";
-        filter_roster(context, p_list_10, c_list_10, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/INF 23-24/ROSTERS");
-    }
+    std::cout << "Team not found." << std::endl;
+
+    // if (context["team"] == "kdt8")
+    // {
+    //     context["category"] = "CADETE FEMENINO B";
+    //     filter_roster(context, p_list_08, c_list_08, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 08 23-24/ROSTERS");
+    // }
+    // else if (context["team"] == "kdt9")
+    // {
+    //     context["category"] = "CADETE FEMENINO C";
+    //     filter_roster(context, p_list_09, c_list_09, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 09 23-24/ROSTERS");
+    // }
+    // else if (context["team"] == "inf")
+    // {
+    //     context["category"] = "INFANTIL FEMENINO C";
+    //     filter_roster(context, p_list_10, c_list_10, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/INF 23-24/ROSTERS");
+    // }
 
     return 0;
 }

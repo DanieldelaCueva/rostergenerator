@@ -1,0 +1,9 @@
+inf
+E1;DE LA CUEVA;Daniel
+//
+kdt8
+E1;DE LA CUEVA;Daniel
+//
+kdt9
+E1;ROJO;Enrique
+E2;DE LA CUEVA;Daniel
