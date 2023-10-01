@@ -7,11 +7,14 @@
 
 #include "../.env/env.h"
 
+// Include necessary header files for Player and Coach classes if available
+
+// Function to generate a PDF from a template and data
 int generate_pdf(std::map<std::string, std::string> context,
                  std::vector<Player> p_list, std::vector<Coach> c_list, std::string team, std::string outdir)
 {
+    // Step 1: Read the HTML template from a file
 
-    // Read the HTML template from a file
     std::ifstream templateFile("generator/roster_template.html");
     if (!templateFile.is_open())
     {
@@ -23,7 +26,10 @@ int generate_pdf(std::map<std::string, std::string> context,
     std::string htmlTemplate((std::istreambuf_iterator<char>(templateFile)),
                              std::istreambuf_iterator<char>());
 
-    // Replace placeholders with values
+    templateFile.close();
+
+    // Step 2: Replace placeholders in the template with values
+
     for (const auto &pair : context)
     {
         std::string placeholder = "{{" + pair.first + "}}";
@@ -35,23 +41,26 @@ int generate_pdf(std::map<std::string, std::string> context,
         }
     }
 
-    // Write the modified HTML to a file
+    // Step 3: Write the modified HTML to a file
+
     std::ofstream outputFile("temp/modified_template.html");
     if (!outputFile.is_open())
     {
         std::cerr << "Error: Unable to create or open output file." << std::endl;
         return 1;
     }
+
     outputFile << htmlTemplate;
     outputFile.close();
 
     std::cout << "Modified HTML template has been written to modified_template.html." << std::endl;
 
-    // Open the template.html file for reading
+    // Step 4: Read the modified template file
+
     std::ifstream templateFile2("temp/modified_template.html");
     if (!templateFile2.is_open())
     {
-        std::cerr << "Failed to open template.html" << std::endl;
+        std::cerr << "Failed to open modified_template.html" << std::endl;
         return 1;
     }
 
@@ -60,10 +69,10 @@ int generate_pdf(std::map<std::string, std::string> context,
         (std::istreambuf_iterator<char>(templateFile2)),
         (std::istreambuf_iterator<char>()));
 
-    // Close the template file
     templateFile2.close();
 
-    // Generate HTML code for p_list
+    // Step 5: Generate HTML code for player list
+
     std::string playerHtml;
     for (const Player &player : p_list)
     {
@@ -74,7 +83,8 @@ int generate_pdf(std::map<std::string, std::string> context,
         playerHtml += "</tr>\n";
     }
 
-    // Generate HTML code for c_list
+    // Step 6: Generate HTML code for coach list
+
     std::string coachHtml;
     for (const Coach &coach : c_list)
     {
@@ -85,7 +95,8 @@ int generate_pdf(std::map<std::string, std::string> context,
         coachHtml += "</tr>\n";
     }
 
-    // Replace placeholders in the template with generated HTML
+    // Step 7: Replace placeholders in the template with generated HTML
+
     size_t insert1Pos = templateContent.find("<!--insert1-->");
     if (insert1Pos != std::string::npos)
     {
@@ -98,7 +109,8 @@ int generate_pdf(std::map<std::string, std::string> context,
         templateContent.replace(insert2Pos, 14, coachHtml);
     }
 
-    // Write the modified content to a new HTML file
+    // Step 8: Write the modified content to a new HTML file
+
     std::ofstream outputFile2("temp/output.html");
     if (!outputFile2.is_open())
     {
@@ -110,11 +122,10 @@ int generate_pdf(std::map<std::string, std::string> context,
     outputFile2.close();
 
     std::string htmlTemplateFile = "temp/output.html"; // Replace with your HTML template file
-    std::string outputDirect = outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf\""; // Replace with the desired output PDF file name
-    // std::string outputDirect = "output.pdf";
-    // std::string outputDirect = "roster-" + context["team"] + "-" + context["game_date"] + ".pdf";
+    std::string outputDirect = outdir + "/roster-" + context["team"] + "-" + context["game_date"] + ".pdf"; // Replace with the desired output PDF file name
 
-    // Use system() to invoke wkhtmltopdf
+    // Step 9: Use system() to invoke wkhtmltopdf
+
     std::string command = "wkhtmltopdf " + htmlTemplateFile + " " + outputDirect;
 
     int result = system(command.c_str());
@@ -132,3 +143,4 @@ int generate_pdf(std::map<std::string, std::string> context,
 
     return 0;
 }
+

@@ -113,12 +113,12 @@ int main()
     if (context["team"] == "kdt8")
     {
         context["category"] = "CADETE FEMENINO B";
-        filter_roster(context, p_list_08, c_list_08, "C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 08 23-24/ROSTERS");
+        filter_roster(context, p_list_08, c_list_08, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 08 23-24/ROSTERS");
     }
     else if (context["team"] == "kdt9")
     {
         context["category"] = "CADETE FEMENINO C";
-        filter_roster(context, p_list_09, c_list_09, "C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 09 23-24/ROSTERS");
+        filter_roster(context, p_list_09, c_list_09, "\"C:/Users/Daniel De la Cueva/OneDrive/BASKET/KDT 09 23-24/ROSTERS");
     }
     else if (context["team"] == "inf")
     {
