@@ -23,7 +23,7 @@ int filter_roster(std::map<std::string, std::string> context, std::vector<Player
         for (const Player& player : p_list) {
         std::cout << player.n << " - " << player.surname << " " << player.name << std::endl;
         }
-        cout << "Delete player... ";
+        cout << "Delete player (n --> no)... ";
         cin >> n;
         // cout << endl;
 
@@ -35,9 +35,11 @@ int filter_roster(std::map<std::string, std::string> context, std::vector<Player
         {
             p_list.erase(it, p_list.end());
             cout << endl;
-        }else{
+        }else if (n != "n"){
             cout << redColor << "Player not found" << resetColor;
             cout << endl;
+            cout << endl;
+        } else {
             cout << endl;
         }
 
@@ -49,7 +51,7 @@ int filter_roster(std::map<std::string, std::string> context, std::vector<Player
         for (const Coach& coach : c_list) {
         std::cout << coach.n << " - " << coach.surname << " " << coach.name << std::endl;
         }
-        cout << "Delete coach... ";
+        cout << "Delete coach (n --> no)... ";
         cin >> n;
         cout << endl;
 
@@ -61,9 +63,11 @@ int filter_roster(std::map<std::string, std::string> context, std::vector<Player
         {
             c_list.erase(it, c_list.end());
             cout << endl;
-        }else{
+        }else if (n != "n"){
             cout << redColor << "Coach not found" << resetColor;
             cout << endl;
+            cout << endl;
+        } else {
             cout << endl;
         }
     } while (n != "n");
