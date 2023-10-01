@@ -23,6 +23,7 @@ int main()
     cout << "***************************************************" << endl;
     cout << "******************ROSTER GENERATOR*****************" << endl;
     cout << "***************************************************" << endl;
+    cout << "                         by Daniel De la Cueva v1.0" << endl;
     cout << endl;
     setColor(7); // Red text
 
