@@ -5,6 +5,8 @@
 
 *.csv
 *.o
-*.exe
+rostergenerator.exe
 
 *.pdf
+
+*.zip

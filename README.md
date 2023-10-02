@@ -7,6 +7,7 @@ This application generates and saves your basketball rosters in a pdf format, sa
  - execute the installer
  - provide club.csv
  - provide teams.csv
+ - place both files in .env directory
 
 #### Formats
 ##### club.csv
