@@ -105,9 +105,9 @@ int setContext()
                 }
 
                 pos = line.find(';');
-                player.name = line.substr(0, pos);
+                player.surname = line.substr(0, pos);
                 line = line.substr(pos + 1);
-                player.surname = line;
+                player.name = line;
                 currentTeam.players.push_back(player);
             }
             else
@@ -118,9 +118,9 @@ int setContext()
                 coach.n = line.substr(0, pos);
                 line = line.substr(pos + 1);
                 pos = line.find(';');
-                coach.name = line.substr(0, pos);
+                coach.surname = line.substr(0, pos);
                 line = line.substr(pos + 1);
-                coach.surname = line;
+                coach.name = line;
                 currentTeam.coaches.push_back(coach);
             }
         }
